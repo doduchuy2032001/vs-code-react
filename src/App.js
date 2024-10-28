@@ -4,10 +4,16 @@ import { useState } from 'react';
 const initialFileStructure = {
   src: {
     components: {
-      "Header.js": {},
-      "Footer.js": {},
+      "Header.js": {
+        title: "This is header content"
+      },
+      "Footer.js": {
+         title: "This is footer content"
+      },
     },
-    "App.js": {},
+    "App.js": {
+      title: "This is App Content"
+    },
     "index.js": {},
   },
   public: {
@@ -36,7 +42,7 @@ const FileNode = ({ name, children, level, selectedNode, setSelectedNode, path, 
     }
   };
 
-  const isFolder = children && Object.keys(children).length > 0;
+  const isFolder = children && Object.keys(children).length >= 0 && !/[.,]/.test(name) ;
   const levelClass = `level-${level}`;
   const isSelected = selectedNode === path;
 
@@ -53,7 +59,10 @@ const FileNode = ({ name, children, level, selectedNode, setSelectedNode, path, 
           backgroundColor: isSelected ? '#ddd' : 'transparent',
         }}
       >
-        {isFolder ? (isOpen ? '📂' : '📁') : '📄'} {name}
+        {isFolder && (isOpen ? '▼' : '►')}
+        <span style={{ marginLeft: isFolder ? '5px' : '20px' }}>
+          {isFolder ? (isOpen ? '📂' : '📁') : '📄'} {name}
+        </span>
       </div>
       {isOpen && isFolder && (
         <div className="file-content">
@@ -95,30 +104,51 @@ function App() {
     }
   };
 
+  const getNodeContent = (structure, path) => {
+    const pathParts = path.split('/');
+    let current = structure;
+    for (const part of pathParts) {
+      if (current[part]) {
+        current = current[part];
+      } else {
+        return "Content not found";
+      }
+    }
+    return Object.keys(current).length ? current?.title : "This file is empty";
+  };
+  
   const handleSelectNode = (node) => {
     setSelectedNode(node);
-    setFileContent(`File Content: [${node.split('/').pop()}]`);
+    const content = getNodeContent(fileStructure, node);
+    setFileContent(content);
   };
 
   return (
-    <div style={{ display: 'flex' }}>
-      <div>
-        {Object.keys(fileStructure).map((key) => (
-          <FileNode
-            key={key}
-            name={key}
-            children={fileStructure[key]}
-            level={1}
-            selectedNode={selectedNode}
-            setSelectedNode={handleSelectNode}
-            path={key}
-            addNode={addNode}
-          />
-        ))}
+    <div className='main'>
+      <div className='header'>
+        <p className='header-title'>Visual Studio Code</p>
       </div>
-      <div style={{ marginLeft: '20px', padding: '10px', border: '1px solid #ddd' }}>
-        <h3>File Content</h3>
-        <p>{fileContent}</p>
+      <div className='body-content'>
+        <div className='sidebar'>
+          {Object.keys(fileStructure).map((key) => (
+            <FileNode
+              key={key}
+              name={key}
+              children={fileStructure[key]}
+              level={1}
+              selectedNode={selectedNode}
+              setSelectedNode={handleSelectNode}
+              path={key}
+              addNode={addNode}
+            />
+          ))}
+        </div>
+        <div className='file-content-body'>
+          <div>
+            <h3>File Content</h3>
+            <p>{fileContent}</p>
+          </div>
+        </div>
       </div>
     </div>
   );

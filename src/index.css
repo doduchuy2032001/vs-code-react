@@ -1,6 +1,6 @@
 .file-node {
   cursor: pointer;
-  width: fit-content;
+  width: 80%;
 }
 
 .file-node .folder,
@@ -27,7 +27,46 @@
 .level-3 {
   margin-left: 60px;
 }
+body {
+  margin: 0px;
+}
+.header {
+  text-align: center;
+  background-color: gray;
+  color: white;
+  font-size: 24px;
+  padding: 10px 0 10px 0;
+   p {
+    margin: 0;
+   }
+}
+.body-content {
+  display: flex;
+  width: 100%;
+}
+.sidebar {
+  background: #F7F7F7;
+  min-width: 300px;
+  width: 300px;
+  height: 100vh;
+  overflow: auto;
+}
+.file-content-body {
+  height: 100%;
+  border-left: 1px solid black;
+  flex: 1 0 auto;
+  display: flex;
+  justify-content: center;
+  height: 100vh;
+  text-align: center;
+    h3 {
+      font-size: 40px;
+    }
+    p {
+      font-size: 24px;
+    }
+}
 
-.file-content {
-  width: fit-content;
+.main {
+  width: 100%;
 }
