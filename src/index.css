@@ -1,13 +1,33 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+.file-node {
+  cursor: pointer;
+  width: fit-content;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.file-node .folder,
+.file-node .file {
+  padding: 4px;
+}
+
+.file-node .folder {
+  color: blue;
+}
+
+.file-node .file {
+  color: black;
+}
+
+.level-1 {
+  margin-left: 20px;
+}
+
+.level-2 {
+  margin-left: 40px;
+}
+
+.level-3 {
+  margin-left: 60px;
+}
+
+.file-content {
+  width: fit-content;
 }
